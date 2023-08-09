@@ -330,14 +330,17 @@ void SyntaxNamePrinter::getCFG(const SyntaxNode* node) {
 }
 
 void SyntaxNamePrinter::printCFG() {
+    // funcDefStack_存放了所有的函数定义，所以函数定义以外的语句不进行处理
     for (auto i = 0U; i < funcDefStack_.size(); ++i) {
         std::shared_ptr<CFGNode> node = funcDefStack_[i];
         std::cout << "========[PRINTCFG]  FunctionDefinition #" << i << "  [PRINTCFG]========" << std::endl;
         while (node) {
+            // **标识本语句存在函数调用
             if (node->hasCallExpr) std::cout << "**";
 
             std::cout << "\t" << to_string(node->getSyntaxNode()->kind()) << "\t" << node->nodeLevel << "\t ----- \t"
                       << node->getCode() << std::endl;
+            // 这里就是简单地对所有结点只进行False跳转
             if (node->isCondition)
                 node = node->getNextFalseNode();
             else

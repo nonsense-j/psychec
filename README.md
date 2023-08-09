@@ -149,3 +149,5 @@ Proceedings of the IEEE/ACM International Symposium on Code Generation and Optim
 
 - [Automatic annotation of tasks in structured code](https://dl.acm.org/citation.cfm?id=3243200)<br/>
 Proceedings of the International Conference on Parallel Architectures and Compilation Techniques — **PACT**, Nov. 2018, Article No. 31.
+## Extra Note for CodeCFG
+Development mannual for codeCFG is in `psychec4codeCfg开发手册.md`

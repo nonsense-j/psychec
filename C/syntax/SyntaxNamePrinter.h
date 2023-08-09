@@ -33,11 +33,11 @@ namespace C {
 
 class CFGNode {
    public:
-    bool isCondition;
-    bool isLoop;
-    bool isFuncDef;
-    bool hasCallExpr;
-    int nodeLevel;
+    bool isCondition;  // 标识 If 和 While(For) 语句
+    bool isLoop;       // 标识循环语句 while 和 for
+    bool isFuncDef;    // 标识函数定义语句
+    bool hasCallExpr;  // 标识存在函数调用
+    int nodeLevel;     // 标识当前语句层级
 
     CFGNode()
         : isCondition(false),
@@ -63,9 +63,9 @@ class CFGNode {
     const SyntaxNode* getSyntaxNode();
 
    private:
-    std::string cfgCode_;
-    std::shared_ptr<CFGNode> nextNode_;       // true branch
-    std::shared_ptr<CFGNode> nextFalseNode_;  // false branch both for if and loop
+    std::string cfgCode_;                     // 存放当前cfgNode对应的代码字符串
+    std::shared_ptr<CFGNode> nextNode_;       // 下一个cfgNode，也是true跳转
+    std::shared_ptr<CFGNode> nextFalseNode_;  // False跳转，包括if和while(for)
     const SyntaxNode* syntaxNode_;
 };
 class PSY_C_API SyntaxNamePrinter final : public SyntaxDumper {
@@ -82,8 +82,8 @@ class PSY_C_API SyntaxNamePrinter final : public SyntaxDumper {
    private:
     virtual void nonterminal(const SyntaxNode* node) override;
 
-    std::vector<std::tuple<const SyntaxNode*, int>> dump_;
-    std::vector<std::shared_ptr<CFGNode>> funcDefStack_;
+    std::vector<std::tuple<const SyntaxNode*, int>> dump_;  // psychec原来就有，存放所有抽象语法树结点
+    std::vector<std::shared_ptr<CFGNode>> funcDefStack_;    // 存放所有函数定义，也是出书CFGNode的入口
     std::vector<std::pair<std::shared_ptr<CFGNode>, int>> ifPairStack_;  // 存放if语句及其层级计数，添加flase跳转
     std::vector<std::shared_ptr<CFGNode>> ifEndStmtStack_;  // 存放if语句段else之前的最后一个命令，添加跳出if语句的跳转
     std::vector<std::pair<std::shared_ptr<CFGNode>, bool>> loopPairStack_;  // 存放while/for语句和hasBreak判断
